@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Alef test</title>
+    <link href="/css/style.min.css" rel="stylesheet">
+    <link rel="icon" href="/images/fav.png" sizes="32x32">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header class="header d-flex align-items-center p-4 p-sm-0">
+      <div class="container">
+        <div class="row justify-content-between align-items-center">
+          <button type="button" class="border-0 p-0 bg-transparent burger-menu"><img src="/images/header-btn-nav.png" alt="burger-menu"></button>
+          <div class="logo col col-sm-6">Company logo</div>
+          <div class="btn-group">
+            <button type="button" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" class="language btn btn-secondary dropdown-toggle">Options</button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <button type="button" class="dropdown-item">ENG</button>
+              <button type="button" class="dropdown-item">RU</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="main">
+      <div class="container p-0">
+        <div class="row justify-content-between _wrap-content">
+          <div data-toggle="open" class="main-menu mh-100 scroll-block-light pl-4 p-sm-0">
+            <nav>
+              <ul class="p-0 mt-5 mr-5"></ul>
+            </nav>
+          </div>
+          <div class="main-content col container-fluid mh-100">
+            <div class="row h-100">
+              <div class="content-col-1 mh-100 scroll-block-dark">
+                <ul class="m-0 p-0"></ul>
+              </div>
+              <div class="content-col-2 col mh-100 scroll-block-dark p-0"></div>
+              <div class="content-col-3 mh-100 scroll-block-dark p-0"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        $.ajax({
+            url: 'content.json',
+            method: 'get',
+            dataType: "json",
+            success: function (data) {
+                //Генерируем меню
+                for (let prop in data) {
+                    $('.main-menu ul').append('<li data-id="' + prop + '">' + data[prop]['item-name'] + '</li>');
+                }
+        
+                $('.main-menu ul li:nth-child(1)').addClass('active');
+            }
+        });
+        
+        function ajaxGetJsonContent (dataId) {
+        
+            let thisDataId = dataId;
+        
+            $.ajax({
+                url: 'content.json',
+                method: 'get',
+                dataType: "json",
+                success: function (data) {
+        
+                    //Выделяем текущий элемент меню
+                    $('.main-menu ul li').removeAttr('class');
+                    $('.main-menu ul li[ data-id="' + thisDataId + '"').addClass('active-menu-item');
+        
+                    const arrCol_1 = data[thisDataId]['col-1'];
+                    const arrCol_2 = data[thisDataId]['col-2'];
+                    const arrCol_3 = data[thisDataId]['col-3'];
+                    let col_1 = $('.content-col-1 ul');
+                    let col_2 = $('.content-col-2');
+                    let col_3 = $('.content-col-3');
+        
+                    //Очищаем теги для перезаписи
+                    col_1.html('');
+                    col_2.html('');
+                    col_3.html('');
+        
+                    //Заполняем первую колонку контента
+                    for (let prop in arrCol_1) {
+                        col_1.append('<li>' + arrCol_1[prop] + '</li>');
+                    }
+        
+                    //Заполняем вторую колонку контента
+                    col_2.append('<p>' + arrCol_2['content'] + '</p>');
+        
+                    //Заполняем третью колонку контента
+                    for (let prop in arrCol_3) {
+                        col_3.append('<p>' + arrCol_3[prop] + '</p>');
+                    }
+                }
+            });
+        }
+        
+        //По умолчанию, наполняем контент данными первого пункта меню
+        $(window).on('load', function () {
+            ajaxGetJsonContent('menuItem1');
+        });
+        
+        //При клике динамично изменяем контент
+        $('.main-menu ul').on('click', function (event) {
+        
+            //Проверяем на пустой клик по UL
+            if (event.target.tagName !== 'UL') {
+                ajaxGetJsonContent(event.target.getAttribute('data-id'));
+            }
+        });
+        
+      </script>
+    </main>
+    <footer class="footer d-flex align-items-center p-4 p-sm-0">
+      <div class="container">
+        <div class="row justify-content-sm-between justify-content-center align-items-center">
+          <div class="copyright">@ Copyright 2017</div>
+          <div class="footer-buttons-group d-flex justify-content-between">
+            <button type="button" class="p-2 bg-transparent save-button d-flex justify-content-between mr-2">
+              <ion-icon name="ios-save" class="mr-2"></ion-icon>
+              <div>Save</div>
+            </button>
+            <button type="button" class="p-2 bg-transparent back-arrow-button d-flex justify-content-between">
+              <ion-icon name="share-alt" class="back-arrow mr-2"></ion-icon>
+              <div>Back</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+    <script src="/js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,269 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans|Roboto&display=swap);
+
+$header-footer-color: #7e00ff;
+$background-color: #7000e0;
+
+//////////////////////////////////////////////////RELATES//////////////////////////////////////////////////////////////
+
+%fixed-h-f {
+  position: fixed;
+  right: 0;
+  left: 0;
+  height: 100px;
+  background-color: $header-footer-color;
+  z-index: 100;
+}
+
+%transition500ms {
+  transition: all .5s;
+}
+
+%font-size32 {
+  font-size: 2rem;
+}
+
+%font-size24 {
+  font-size: 1.5rem;
+}
+
+%font-size20 {
+  font-size: 1.25rem;
+}
+
+%font-size18 {
+  font-size: 1.125rem;
+}
+
+%main-button-style {
+  border-radius: 5px;
+  border: 2px solid #fff;
+  font-family: 'Roboto', sans-serif;
+  @extend %font-size24;
+}
+
+%font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+%font-open-sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
+//////////////////////////////////////////////////GLOBAL//////////////////////////////////////////////////////////////
+
+.scroll-block-dark::-webkit-scrollbar-track {border-radius: 2px;}
+.scroll-block-dark::-webkit-scrollbar {width: 4px;}
+.scroll-block-dark::-webkit-scrollbar-thumb {border-radius: 2px;background: rgb(241, 206, 255);}
+.scroll-block-dark:hover::-webkit-scrollbar-thumb {background: rgb(171, 67, 255);}
+
+.scroll-block-light::-webkit-scrollbar-track {border-radius: 2px;}
+.scroll-block-light::-webkit-scrollbar {width: 4px;}
+.scroll-block-light::-webkit-scrollbar-thumb {border-radius: 2px;background: rgb(171, 67, 255);}
+.scroll-block-light:hover::-webkit-scrollbar-thumb {background: rgb(241, 206, 255);}
+
+.active-menu-item {
+  background-color: #ab43ff;
+}
+
+@media only screen and (max-width: 1024px) {
+  .main {
+    ._wrap-content {
+      .main-menu {
+        z-index: -1000;
+        position: absolute;
+        left: -280px;
+      }
+    }
+  }
+}
+
+//////////////////////////////////////////////////LOCAL///////////////////////////////////////////////////////////////
+body {
+  background-color: $background-color;
+////////////////////////////////////////////////////header///////////////////////////////////////////////////////////
+  .header {
+    top: 0;
+    @extend %fixed-h-f;
+
+    .btn-group {
+      button.dropdown-toggle {
+        @extend %main-button-style;
+        background: #fff !important;
+        color: $header-footer-color;
+      }
+
+      .dropdown-menu {
+        min-width: 5rem;
+      }
+    }
+
+    .logo {
+      @extend %font-roboto;
+      @extend %font-size32;
+      color: #fff;
+    }
+  }
+
+////////////////////////////////////////////////////main///////////////////////////////////////////////////////////
+  .main {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $background-color;
+    @extend %font-open-sans;
+
+    .container {
+      position: relative;
+
+      ._wrap-content {
+        position: absolute;
+        margin: 100px 0;
+        height: calc(100vh - 200px);
+        overflow: hidden;
+      }
+    }
+
+    .main-menu {
+      width: 280px;
+      background: $background-color;
+      overflow: auto;
+      color: #ffffff;
+      position: relative;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 1000;
+      @extend %transition500ms;
+
+      li {
+        list-style-type: none;
+        cursor: pointer;
+        margin: 5px 0;
+        @extend %font-size18;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .content-col-1 {
+      width: 240px;
+      overflow: auto;
+      background-color: #ffffff;
+
+      ul {
+        list-style-type: none;
+        color: $header-footer-color;
+        @extend %font-size20;
+        font-weight: 600;
+        position: relative;
+
+        li {
+          padding: 16px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        li:nth-of-type(1) {
+          position: fixed;
+          top: 100px;
+          z-index: 100;
+          width: 236px;
+        }
+
+        li:nth-of-type(2) {
+          margin-top: 80px;
+        }
+
+        li:nth-of-type(1n) {
+          background-color: #ffffff;
+        }
+
+        li:nth-of-type(2n) {
+          background-color: #e6e6e6;
+        }
+
+        li:before {
+          content: '';
+          display: inline-block;
+          height: 48px;
+          width: 48px;
+          margin-right: 5px;
+          border-radius: 50%;
+          background-color: $header-footer-color;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .content-col-2 {
+      overflow: auto;
+      background-color: #e6e6e6;
+      @extend %transition500ms;
+
+      p {
+        padding: 16px;
+        line-height: 1.3;
+      }
+    }
+
+    .content-col-3 {
+      width: 300px;
+      padding: 0 15px;
+      overflow: auto;
+      background-color: #e6e6e6;
+
+      p {
+        background-color: #ffffff;
+        padding: 16px;
+        margin-bottom: 4px;
+        line-height: 1.3;
+      }
+    }
+
+  }
+
+
+////////////////////////////////////////////////////footer///////////////////////////////////////////////////////////
+  .footer {
+    bottom: 0;
+    @extend %fixed-h-f;
+
+    .copyright {
+      @extend %font-size18;
+      color: #fff;
+    }
+
+    .footer-buttons-group {
+      button {
+        @extend %main-button-style;
+
+        ion-icon {
+          font-size: 32px;
+          color: $header-footer-color;
+        }
+
+        .back-arrow {
+          transform: scale(-1, 1);
+          color: #fff;
+        }
+      }
+
+      .save-button {
+        background: #fff !important;
+        color: $header-footer-color;
+      }
+
+      .back-arrow-button {
+        color: #fff;
+      }
+    }
+  }
+}
+
+
+
+
